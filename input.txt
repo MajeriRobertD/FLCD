@@ -1,0 +1,17 @@
+Magic
+integer x ;
+integer i ;
+bool answer;
+i= 1;
+Start
+read(x);
+if x > 1 then
+for i in (2 < x) :
+ if x % i == 0 ;
+ then answer = False;
+ else answer=True;
+if answer == True then
+print(“true”);
+else
+print(“false”)
+End
