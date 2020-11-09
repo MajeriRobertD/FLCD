@@ -1,17 +1,3 @@
-Magic
-integer x ;
-integer i ;
-bool answer;
-i= 1;
-Start
-read(x);
-if x > 1 then
-for i in (2 < x) :
- if x % i == 0 ;
- then answer = False;
- else answer=True;
-if answer == True then
-print(“true”);
-else
-print(“false”)
-End
+q0 1 0 q0 1 q1 2 q2
+q1 1 1 q1 0 q0
+q3 0 1 q3 3 q3
