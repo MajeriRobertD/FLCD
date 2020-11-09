@@ -1,0 +1,95 @@
+%{
+    #include "codes.h"
+%}
+%%
+[1-9][0-9]* return CONST_INT;
+Magic return MAGIC;
+bool return BOOL;
+Start return START;
+read return READ;
+if return IF;
+print return PRINT;
+then return THEN;
+in return IN;
+constant return CONSTANT;
+integer return INTEGER;
+else return ELSE;
+for return FOR;
+False return BOOL;
+True return BOOL;
+End return END;
+
+"(" return LEFT_PARANTHESIS;
+")" return RIGHT_PARANTHESIS;
+">" return GT;
+"<" return LT;
+"=" return EQ;
+"==" return DOUBLEEQ;
+"%"  return MODULO;
+";" return SEMICOLON;
+"\"" return DOUBLEQUOTE;
+
+
+[a-zA-Z][a-zA-Z0-9]* return IDENTIFIER;
+[ \t\n]+	     /* eat up whitespace */
+
+%%
+
+int searchST(char *id, int size, char arr[200][200]){
+    for(int i = 0; i < size; i++){
+        if(strcmp(id,arr[i])==0){
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+
+int main( argc, argv )
+int argc;
+char **argv;
+    {
+        ++argv, --argc;	/* skip over program name */
+        if ( argc > 0 )
+            yyin = fopen( argv[0], "r" );
+        else
+            yyin = stdin;
+
+    FILE *st;
+    FILE *pif;
+
+    st = fopen("ST.txt", "w+"); 
+    pif = fopen("PIF.txt", "w+");
+
+     char   symbolArr[200][200];
+     int index = 0;
+
+  
+    int token = yylex();
+    while(token){
+        if(token == IDENTIFIER || token == CONST_INT){
+            int code = searchST(yytext,index,symbolArr);
+            if(code == -1){
+                strcpy(symbolArr[index],yytext);
+                fprintf(st,"%s\n",yytext);
+                fprintf(pif,"%d\t%d\n", token, index);
+                index += 1;
+            }else{
+                fprintf(pif, "%d \t %d\n", token, index);
+            }
+
+            
+        }else{
+             fprintf(pif, "%d \t %d\n", token,-1);
+        }
+      
+        
+       token = yylex();
+    }
+    return 0;
+    }
+    #ifndef yywrap
+   int yywrap() { return 1; }
+   #endif
+
